@@ -78,6 +78,9 @@ if (target.classList.contains('delete-btn')) {
     if (confirm('确定要删除这条消息吗？')) {
         const index = messages.findIndex(m => m.id === messageId);
         if (index > -1) {
+            if (messages[index].type === 'questionnaire' && window.QuestionnaireFeature) {
+                window.QuestionnaireFeature.cancel(messageId);
+            }
             const savedScrollTop = DOMElements.chatContainer.scrollTop;
             messages.splice(index, 1); 
             throttledSaveData(); 

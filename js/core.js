@@ -966,6 +966,12 @@ function createMessageFragment(msg, prevMsg, nextMsg, lastSenderRef) {
         return fragment;
     }
 
+    if (msg.type === 'questionnaire' && typeof window.renderQuestionnaireMessage === 'function') {
+        fragment.appendChild(window.renderQuestionnaireMessage(msg));
+        lastSenderRef.current = 'questionnaire';
+        return fragment;
+    }
+
     let showTimestamp = true;
     if (settings.timeFormat === 'off') {
         showTimestamp = false;
@@ -2319,6 +2325,5 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(historyLoader);
     }
 });
-
 
 

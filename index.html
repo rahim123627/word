@@ -321,6 +321,9 @@
                     <button class="collapsed-extra-btn" id="batch-btn-extra" title="批量发送">
                         <i class="fas fa-layer-group"></i>
                     </button>
+                    <button class="collapsed-extra-btn" id="questionnaire-btn-extra" title="问卷调查" aria-label="问卷调查">
+                        <span class="questionnaire-crown-emoji" aria-hidden="true">👑</span>
+                    </button>
                     <button class="collapsed-extra-btn" title="字卡回复" onclick="(function(){document.getElementById('collapsed-extras-panel').style.display='none';document.getElementById('collapse-expand-btn').classList.remove('open');showModal(document.getElementById('custom-replies-modal'));})();">
                         <i class="fas fa-comment-dots"></i>
                     </button>
@@ -348,6 +351,7 @@
     
     <div class="input-buttons">
     <button class="continue-btn input-btn" id="continue-btn" title="让对方继续说"><i class="fas fa-ellipsis-h"></i></button>
+        <button class="questionnaire-btn input-btn collapse-hideable" id="questionnaire-btn" title="问卷调查" aria-label="问卷调查"><span aria-hidden="true">👑</span></button>
         <button class="batch-btn input-btn collapse-hideable" id="batch-btn" title="批量发送模式"><i class="fas fa-layer-group"></i></button>
         <button class="send-btn input-btn" id="send-btn" title="发送消息"><i class="fas fa-paper-plane"></i></button>
         
@@ -368,6 +372,60 @@
     <input type="file" id="image-input" class="file-input" accept="image/*">
     <input type="file" id="my-sticker-quick-upload" class="file-input" accept="image/*" multiple>
 </div>
+    </div>
+
+    <div class="modal" id="questionnaire-modal" style="z-index:2600;">
+        <div class="modal-content questionnaire-modal-content">
+            <div class="modal-title questionnaire-modal-title">
+                <span class="questionnaire-title-crown" aria-hidden="true">👑</span>
+                <span>创建问卷调查</span>
+            </div>
+
+            <div class="questionnaire-field">
+                <label>问卷类型</label>
+                <div class="questionnaire-type-tabs" role="radiogroup" aria-label="问卷类型">
+                    <button type="button" class="questionnaire-type-btn active" data-type="short" role="radio" aria-checked="true">简答</button>
+                    <button type="button" class="questionnaire-type-btn" data-type="single" role="radio" aria-checked="false">单选</button>
+                    <button type="button" class="questionnaire-type-btn" data-type="multiple" role="radio" aria-checked="false">多选</button>
+                </div>
+            </div>
+
+            <div class="questionnaire-field">
+                <label for="questionnaire-question">问卷题目</label>
+                <input id="questionnaire-question" class="questionnaire-input" type="text" maxlength="200" placeholder="例如：今晚想吃什么？">
+            </div>
+
+            <div class="questionnaire-field" id="questionnaire-options-field" hidden>
+                <label for="questionnaire-options">选项 <small>一行一项，至少两项</small></label>
+                <textarea id="questionnaire-options" class="questionnaire-input questionnaire-options-input" rows="5" maxlength="3000" placeholder="火锅&#10;烧烤&#10;寿司"></textarea>
+                <div class="questionnaire-field-hint" id="questionnaire-option-count">0 个有效选项</div>
+            </div>
+
+            <div class="questionnaire-field questionnaire-multi-range" id="questionnaire-multi-range" hidden>
+                <label>多选数量</label>
+                <div class="questionnaire-number-row">
+                    <label class="questionnaire-number-box"><span>最少选择</span><input id="questionnaire-choice-min" type="number" min="1" value="1" inputmode="numeric"></label>
+                    <span class="questionnaire-range-separator">至</span>
+                    <label class="questionnaire-number-box"><span>最多选择</span><input id="questionnaire-choice-max" type="number" min="1" value="1" inputmode="numeric"></label>
+                </div>
+            </div>
+
+            <div class="questionnaire-field">
+                <label>随机回复时间 <small>1–120 秒</small></label>
+                <div class="questionnaire-number-row">
+                    <label class="questionnaire-number-box"><span>最短</span><input id="questionnaire-delay-min" type="number" min="1" max="120" value="5" inputmode="numeric"><em>秒</em></label>
+                    <span class="questionnaire-range-separator">至</span>
+                    <label class="questionnaire-number-box"><span>最长</span><input id="questionnaire-delay-max" type="number" min="1" max="120" value="15" inputmode="numeric"><em>秒</em></label>
+                </div>
+            </div>
+
+            <div class="questionnaire-short-note" id="questionnaire-short-note">简答将从当前可用的主字卡中随机抽取3条，且不会重复。</div>
+
+            <div class="modal-buttons">
+                <button type="button" class="modal-btn modal-btn-secondary" id="questionnaire-cancel">取消</button>
+                <button type="button" class="modal-btn modal-btn-primary" id="questionnaire-send">发送问卷</button>
+            </div>
+        </div>
     </div>
 
 
@@ -2223,6 +2281,7 @@
     <script src="js/core.js"></script>
 
     <!-- == 功能模块 == -->
+    <script src="js/features/questionnaire.js"></script>
     <script src="js/features/mood.js"></script>
     <script src="js/features/envelope.js"></script>
     <script src="js/features/reply-library.js"></script>

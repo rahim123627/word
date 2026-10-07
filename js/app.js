@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         updateLoader('正在读取记忆存档...', '40%');
         await safeAwait(loadData());
+        try { window.QuestionnaireFeature?.restorePending(); } catch(e) { console.warn('恢复问卷计时失败:', e); }
 
         updateLoader('正在渲染我们的世界...', '70%');
         
